@@ -5,6 +5,9 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
+year = 2014
+division = 1
+
 nthreads = 10
 
 base_sleep = 0
@@ -17,12 +20,12 @@ base_url = 'http://stats.ncaa.org'
 
 game_xpath = '//*[@id="contentArea"]/table/tr[2]/td[1]/table/tr[position()>2]'
 
-ncaa_teams = CSV.open("csv/ncaa_teams.csv","r",{:col_sep => "\t", :headers => TRUE})
-ncaa_team_schedules = CSV.open("csv/ncaa_team_schedules_mt.csv","w",{:col_sep => "\t"})
+ncaa_teams = CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
+CSV.open("ncaa_team_schedules_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_schedules|
 
 # Header for team file
 
-ncaa_team_schedules << ["year", "year_id", "team_id", "team_name", "game_date", "game_string", "opponent_id", "opponent_name", "opponent_url", "neutral_site", "neutral_location", "home_game", "score_string", "team_won", "score", "team_score", "opponent_score", "overtime", "overtime_periods", "game_id", "game_url"]
+ncaa_team_schedules << ["year", "year_id", "team_id", "team_name", "game_date", "game_string", "opponent_id", "opponent_name", "opponent_url", "neutral_site", "neutral_location", "home_game", "score_string", "team_won", "score", "team_score", "opponent_score", "is_final", "innings", "game_id", "game_url"]
 
 # Get team IDs
 
@@ -211,3 +214,4 @@ threads.each(&:join)
 
 ncaa_team_schedules.close
 
+end

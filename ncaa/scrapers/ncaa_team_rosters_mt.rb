@@ -5,6 +5,9 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
+year = 2014
+division = 1
+
 nthreads = 10
 
 base_sleep = 0
@@ -17,14 +20,16 @@ base_url = 'http://stats.ncaa.org'
 
 roster_xpath = '//*[@id="stat_grid"]/tbody/tr'
 
-ncaa_teams = CSV.open("csv/ncaa_teams.csv","r",{:col_sep => "\t", :headers => TRUE})
-ncaa_team_rosters = CSV.open("csv/ncaa_team_rosters_mt.csv","w",{:col_sep => "\t"})
+ncaa_teams = CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
+# if already created(?)
+#ncaa_team_rosters = CSV.open("ncaa_team_rosters_mt.csv","w",{:col_sep => "\t"})
+CSV.open("csv/ncaa_team_rosters_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_rosters|
 
 #http://stats.ncaa.org/team/roster/11540?org_id=2
 
 # Header for team file
 
-ncaa_team_rosters << ["year","year_id","team_id","team_name","jersey_number","player_id","player_name","player_url","position","height","class_year","games_played","games_started"]
+ncaa_team_rosters << ["year","year_id","team_id","team_name","jersey_number","player_id","player_name","player_url","position","class_year","games_played","games_started"]
 
 # Get team IDs
 
@@ -130,3 +135,4 @@ end
 threads.each(&:join)
 
 ncaa_team_rosters.close
+end

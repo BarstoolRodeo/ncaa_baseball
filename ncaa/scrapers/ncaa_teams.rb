@@ -5,7 +5,10 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-ncaa_teams = CSV.open("csv/ncaa_teams.csv","w",{:col_sep => "\t"})
+year = 2014
+division = 1
+
+CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
 
 # Header for team file
 
@@ -15,53 +18,53 @@ ncaa_teams << ["year", "year_id", "team_id", "team_name", "team_url"]
 
 base_url = 'http://stats.ncaa.org'
 
-year = 2014
-division = 1
+#for year in 2012..2014
+	year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
 
-year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+	valid_url_substring = "team/index/" ##{year_id}?org_id="
 
-valid_url_substring = "team/index/" ##{year_id}?org_id="
+	print "\nRetrieving division #{division} teams for #{year} ... "
 
-print "\nRetrieving division #{division} teams for #{year} ... "
+	found_teams = 0
 
-found_teams = 0
+	doc = Nokogiri::HTML(open(year_division_url))
 
-doc = Nokogiri::HTML(open(year_division_url))
+	doc.search("a").each do |link|
 
-doc.search("a").each do |link|
+	  link_url = link.attributes["href"].text
 
-  link_url = link.attributes["href"].text
+	  # Valid team URLs
 
-  # Valid team URLs
+	  if (link_url).include?(valid_url_substring)
 
-  if (link_url).include?(valid_url_substring)
+		# NCAA year_id
 
-    # NCAA year_id
+		parameters = link_url.split("/")[-1]
+		year_id = parameters.split("?")[0]
 
-    parameters = link_url.split("/")[-1]
-    year_id = parameters.split("?")[0]
+		# NCAA team_id
 
-    # NCAA team_id
+		team_id = parameters.split("=")[1]
 
-    team_id = parameters.split("=")[1]
+		# NCAA team name
 
-    # NCAA team name
+		team_name = link.text()
 
-    team_name = link.text()
+		# NCAA team URL
 
-    # NCAA team URL
+		team_url = base_url+link_url
 
-    team_url = base_url+link_url
+		ncaa_teams << [year, year_id, team_id, team_name, team_url]
+		found_teams += 1
 
-    ncaa_teams << [year, year_id, team_id, team_name, team_url]
-    found_teams += 1
+	  end
 
-  end
+	  ncaa_teams.flush
 
-  ncaa_teams.flush
-
-end
+	end
+	
+	print "found #{found_teams} teams\n\n"
+#end
 
 ncaa_teams.close
-
-print "found #{found_teams} teams\n\n"
+end

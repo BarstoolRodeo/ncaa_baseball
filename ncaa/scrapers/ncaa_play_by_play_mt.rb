@@ -5,6 +5,9 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
+year = 2014
+division = 1
+
 #require 'awesome_print'
 
 class String
@@ -27,9 +30,9 @@ base_sleep = 0
 sleep_increment = 3
 retries = 4
 
-ncaa_team_schedules = CSV.open("csv/ncaa_team_schedules_mt.csv","r",{:col_sep => "\t", :headers => TRUE})
-ncaa_play_by_play = CSV.open("csv/ncaa_games_play_by_play_mt.csv","w",{:col_sep => "\t"})
-ncaa_periods = CSV.open("csv/ncaa_games_periods_mt.csv","w",{:col_sep => "\t"})
+ncaa_team_schedules = CSV.open("ncaa_team_schedules_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
+CSV.open("ncaa_games_pbp_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_play_by_play|
+CSV.open("ncaa_innings_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_periods|
 
 # Headers
 
@@ -186,3 +189,6 @@ threads.each(&:join)
 #parts.flatten(1).each { |row| ncaa_play_by_play << row }
 
 ncaa_play_by_play.close
+
+end
+end
