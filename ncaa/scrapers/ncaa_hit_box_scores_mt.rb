@@ -5,9 +5,16 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2014
+year = 2013
 division = 1
-cat_id = 10460
+
+  if year == '2012'
+	cat_id = 10082
+  elsif year == '2013'
+	cat_id = 10120
+  elsif year == '2014'
+	cat_id = 10460
+  end
 
 #require 'awesome_print'
 
@@ -32,8 +39,8 @@ base_sleep = 0
 sleep_increment = 3
 retries = 4
 
-ncaa_team_schedules = CSV.open("ncaa_team_schedules_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
-CSV.open("ncaa_hit_box_scores_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_box_scores|
+ncaa_team_schedules = CSV.open("csv/ncaa_team_schedules_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
+CSV.open("csv/ncaa_hit_box_scores_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_box_scores|
 
 # Headers
 
@@ -141,7 +148,7 @@ end
 threads.each(&:join)
 
 #parts.flatten(1).each { |row| ncaa_play_by_play << row }
+print "\n\nfinished hitting box scores!\n\n"
 
 ncaa_box_scores.close
-
 end

@@ -5,7 +5,7 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2014
+year = 2013
 division = 1
 
 nthreads = 10
@@ -133,6 +133,7 @@ teams.each_slice(tpt).with_index do |teams_slice,i|
 end
 
 threads.each(&:join)
+print "\n\nfinished rosters!\n\n"
 
 ncaa_team_rosters.close
 end

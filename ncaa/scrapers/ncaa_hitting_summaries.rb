@@ -5,7 +5,7 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2014
+year = 2013
 division = 1
 
 base_sleep = 0
@@ -15,10 +15,10 @@ retries = 4
 ncaa_teams = CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
 
 #ncaa_player_summaries = CSV.open("csv/ncaa_player_summaries.csv","w",{:col_sep => "\t"})
-CSV.open("ncaa_player_hit_summaries_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_player_summaries|
+CSV.open("csv/ncaa_player_hit_summaries_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_player_summaries|
 
 #ncaa_team_summaries = CSV.open("csv/ncaa_team_summaries.csv","w",{:col_sep => "\t"})
-CSV.open("ncaa_team_hit_summaries_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_summaries|
+CSV.open("csv/ncaa_team_hit_summaries_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_summaries|
 
 #http://stats.ncaa.org/team/roster/11540?org_id=2
 
@@ -131,6 +131,10 @@ ncaa_teams.each do |team|
   print ", #{found_summaries} team summaries\n"
 
 end
+print "\n\nfinished hitting summaries!\n\n"
+
+ncaa_player_summaries.close
 
 end #ncaa_player_summaries
+ncaa_team_summaries.close
 end #ncaa_team_summaries

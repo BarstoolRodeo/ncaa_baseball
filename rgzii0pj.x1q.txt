@@ -1,0 +1,49 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch is up-to-date with 'origin/master'.
+#
+# Changes to be committed:
+#	new file:   ncaa/csv/ncaa_games_pbp_2013_D1.xls
+#	new file:   ncaa/csv/ncaa_games_pbp_2014_D1.csv
+#	new file:   ncaa/csv/ncaa_games_pbp_2014_D1.txt
+#	new file:   ncaa/csv/ncaa_games_pbp_2014_D1.xls
+#	new file:   ncaa/csv/ncaa_games_pbp_2014_D1.xlsx
+#	new file:   ncaa/csv/ncaa_hit_box_scores_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_innings_2013_D1.xls
+#	new file:   ncaa/csv/ncaa_innings_2014_D1.csv
+#	new file:   ncaa/csv/ncaa_innings_2014_D1.txt
+#	new file:   ncaa/csv/ncaa_innings_2014_D1.xls
+#	new file:   ncaa/csv/ncaa_pitch_box_scores_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_player_field_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_player_hit_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_player_pitch_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_team_field_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_team_hit_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_team_pitch_summaries_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_team_rosters_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_team_schedules_2013_D1.csv
+#	new file:   ncaa/csv/ncaa_teams_2013_D1.csv
+#	new file:   ncaa/scrape_ncaa_boxes.sh
+#	modified:   ncaa/scrape_ncaa_mt.sh
+#	new file:   ncaa/scrape_ncaa_pbp.sh
+#	modified:   ncaa/scrapers/ncaa_field_box_scores_mt.rb
+#	modified:   ncaa/scrapers/ncaa_fielding_summaries.rb
+#	modified:   ncaa/scrapers/ncaa_hit_box_scores_mt.rb
+#	modified:   ncaa/scrapers/ncaa_hitting_summaries.rb
+#	modified:   ncaa/scrapers/ncaa_pitch_box_scores_mt.rb
+#	modified:   ncaa/scrapers/ncaa_pitching_summaries.rb
+#	modified:   ncaa/scrapers/ncaa_play_by_play_mt.rb
+#	modified:   ncaa/scrapers/ncaa_team_rosters_mt.rb
+#	modified:   ncaa/scrapers/ncaa_team_schedules_mt.rb
+#	modified:   ncaa/scrapers/ncaa_teams.rb
+#
+# Changes not staged for commit:
+#	deleted:    ncaa/scrapers/ncaa_play_by_play.rb
+#	deleted:    ncaa/scrapers/ncaa_play_by_play_mt_update.rb
+#	deleted:    ncaa/scrapers/ncaa_play_by_play_revised.rb
+#	deleted:    ncaa/scrapers/ncaa_team_rosters.rb
+#	deleted:    ncaa/scrapers/ncaa_team_schedules.rb
+#
+

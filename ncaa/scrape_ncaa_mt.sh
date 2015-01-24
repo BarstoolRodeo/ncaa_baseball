@@ -19,5 +19,5 @@
 ./scrapers/ncaa_pitch_box_scores_mt.rb
 ./scrapers/ncaa_field_box_scores_mt.rb
 
-# todo...
-#./scrapers/ncaa_play_by_play_mt.rb
+# updated! (events as strings ONLY)
+./scrapers/ncaa_play_by_play_mt.rb

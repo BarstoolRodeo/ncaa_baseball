@@ -5,7 +5,7 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2014
+year = 2013
 division = 1
 
 nthreads = 10
@@ -21,7 +21,7 @@ base_url = 'http://stats.ncaa.org'
 game_xpath = '//*[@id="contentArea"]/table/tr[2]/td[1]/table/tr[position()>2]'
 
 ncaa_teams = CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
-CSV.open("ncaa_team_schedules_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_schedules|
+CSV.open("csv/ncaa_team_schedules_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_schedules|
 
 # Header for team file
 
