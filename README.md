@@ -17,5 +17,5 @@ Obviously this is nowhere near as fun as the Retrosheet database, and there is a
  
 I'm also open to requests/bug reports.  You can find me on Twitter at <a href="http://www.twitter.com/Doctor_Bryan">@Doctor_Bryan</a>.
 
--Bryan Cole
+-Bryan Cole<br>
 Jan. 27, 2015
