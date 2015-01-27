@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2013
-division = 1
+division = 3
 
 base_sleep = 0
 sleep_increment = 3

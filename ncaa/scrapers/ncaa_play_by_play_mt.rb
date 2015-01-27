@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2013
-division = 1
+division = 3
 
 #require 'awesome_print'
 
@@ -184,6 +184,6 @@ threads.each(&:join)
 
 end
 
-ncaa_play_by_play.close
+#ncaa_play_by_play.close
 
 end

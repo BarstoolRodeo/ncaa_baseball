@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2013
-division = 1
+division = 3
 
 CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
 
@@ -66,6 +66,6 @@ base_url = 'http://stats.ncaa.org'
 	print "found #{found_teams} teams\n\n"
 #end
 
-ncaa_teams.close
+#ncaa_teams.close
 end
 

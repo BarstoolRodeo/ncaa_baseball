@@ -6,15 +6,15 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2013
-division = 1
+division = 3
 
 print "\n\nstarting fielding box scores...\n\n"
 
-  if year == '2012'
+  if year == 2012
 	cat_id = 10084
-  elsif year == '2013'
+  elsif year == 2013
 	cat_id = 10122
-  elsif year == '2014'
+  elsif year == 2014
 	cat_id = 10462
   end
 
@@ -92,7 +92,7 @@ game_ids.each_slice(gpt).with_index do |ids,i|
         page = Nokogiri::HTML(open(game_url))
       rescue
         sleep_time += sleep_increment
-#        print "sleep #{sleep_time} ... "
+        print "sleep #{sleep_time} ... "
         sleep sleep_time
         tries += 1
         if (tries > retries)
@@ -153,5 +153,5 @@ threads.each(&:join)
 
 print "\n\nfinished fielding box scores!\n\n"
 
-ncaa_box_scores.close
+#ncaa_box_scores.close
 end

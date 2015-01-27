@@ -6,13 +6,13 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2013
-division = 1
+division = 3
 
-  if year == '2012'
+  if year == 2012
 	cat_id = 10082
-  elsif year == '2013'
+  elsif year == 2013
 	cat_id = 10120
-  elsif year == '2014'
+  elsif year == 2014
 	cat_id = 10460
   end
 
@@ -80,8 +80,10 @@ game_ids.each_slice(gpt).with_index do |ids,i|
       sleep_time = base_sleep
 
 #      game_url = 'http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
-      game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/%d' % [game_id]
+#      game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/%d' % [game_id]
+	   game_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
 
+#      print "Thread #{game_id}, category #{cat_id}, url #{game_url} ... \n"
 #      print "Thread #{thread_id}, sleep #{sleep_time} ... "
 #      sleep sleep_time
 
@@ -150,5 +152,5 @@ threads.each(&:join)
 #parts.flatten(1).each { |row| ncaa_play_by_play << row }
 print "\n\nfinished hitting box scores!\n\n"
 
-ncaa_box_scores.close
+#ncaa_box_scores.close
 end
