@@ -5,8 +5,8 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
 print "\n\nstarting fielding box scores...\n\n"
 
@@ -16,6 +16,8 @@ print "\n\nstarting fielding box scores...\n\n"
 	cat_id = 10122
   elsif year == 2014
 	cat_id = 10462
+  elsif year == 2015
+    cat_id = 10782
   end
 
 #require 'awesome_print'

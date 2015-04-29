@@ -5,8 +5,8 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
 CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
 
@@ -19,7 +19,7 @@ ncaa_teams << ["year", "year_id", "team_id", "team_name", "team_url"]
 base_url = 'http://stats.ncaa.org'
 
 #for year in 2012..2014
-	year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+	year_division_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
 
 	valid_url_substring = "team/index/" ##{year_id}?org_id="
 

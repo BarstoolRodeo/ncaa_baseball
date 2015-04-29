@@ -5,8 +5,8 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
 #require 'awesome_print'
 

@@ -55,6 +55,8 @@ home_bats = zeros(length(events),1);
 inn_st_fl = zeros(length(events),1);
 inn_end_fl = zeros(length(events),1);
 inn_fate = zeros(length(events),1);
+runs_before = zeros(length(events),1);
+play_fate = zeros(length(events),1);
 last_end_inn = 1;
 
 % find semicolons
@@ -65,7 +67,10 @@ for n=2:length(events),
     runtmp = cell(1,3);
 	sub_cell{n,2} = 0;
     
-    if(isempty(events{n,7}) || sum(isnan(events{n,7}))>0)
+    if(sum(isnan(events{n,4})) > 0 && sum(isnan(events{n,7}))>0) % what if BOTH are empty? ahhhh
+        fprintf('No text on line %i\n',n);
+        continue;
+    elseif(isempty(events{n,7}) || sum(isnan(events{n,7}))>0)
         tmptext = events{n,4};
     else
         tmptext = events{n,7};
@@ -113,7 +118,8 @@ for n=2:length(events),
         
         runsThisInn = events{n-1,6}-events{last_end_inn,6};
         tmp_fate = runsThisInn*ones(n-last_end_inn,1);
-        
+
+        runs_before(n) = 0;
         inn_fate(last_end_inn:n-1) = tmp_fate;
         last_end_inn = n;
     elseif(sum(isnan(events{n-1,4})) && sum(isnan(events{n,7})))  % new half-inning, visiting team now bats
@@ -128,6 +134,7 @@ for n=2:length(events),
         
         inn_fate(last_end_inn:n-1) = tmp_fate;
         last_end_inn = n;
+        runs_before(n) = 0;
     elseif(sum(isnan(events{n-1,7})) && sum(isnan(events{n,4})))  % new half-inning, home team now bats
         bases(n) = 0;
         outs(n) = 0;
@@ -140,6 +147,7 @@ for n=2:length(events),
         
         inn_fate(last_end_inn:n-1) = tmp_fate;
         last_end_inn = n;
+        runs_before(n) = 0;
     else
         bases(n) = base_end(n-1);
         outs(n) = outs_end(n-1);
@@ -250,7 +258,7 @@ for n=2:length(events),
     end
     
 %% BATTING CODES
-    runsOnPlay = length(strfind(tmptext,' scored'))+length(strfind(tmptext,' homered'));
+    runsOnPlay = length(strfind(tmptext,' scored'))+length(strfind(tmptext,' homered'))+length(strfind(tmptext,' stole home'))+length(strfind(tmptext,' advanced to home'));
 % BB/IBB
     if(strfind(battext,'walked'))
         if(strfind(battext,'intentionally'))
@@ -1563,6 +1571,24 @@ for n=2:length(events),
             else
                 battext = [battext(1:posend(sac_loc-1)),battext(posend(sac_loc)+1:end)];
             end
+        elseif(strfind(battext,'sacrifice fly'))
+            pos = strfind(battext,'sacrifice fly');
+            posend = [strfind(battext,';'),strfind(battext,':'),strfind(battext,'.'),strfind(battext,','),length(battext)];
+            posend = sort(posend);
+
+            is_sf(n) = true;
+
+            is_pa(n) = false;
+            is_ab(n) = false;
+
+            tas_str{n} = [tas_str{n},'SF '];
+
+            sac_loc = find(pos < posend,1);
+            if(sac_loc == 1)
+                battext = battext(posend(sac_loc)+1:end);
+            else
+                battext = [battext(1:posend(sac_loc-1)),battext(posend(sac_loc)+1:end)];
+            end
         end
 
         % out advancing
@@ -2804,8 +2830,10 @@ for n=2:length(events),
     runners_in = ~isempty(runName{n,1}) + ~isempty(runName{n,2}) + ~isempty(runName{n,3}) + outs(n);
     if(score_chg > 0)
         runners_out = ~isempty(newRun{1}) + ~isempty(newRun{2}) + ~isempty(newRun{3}) + outs_end(n) + score_chg;
+        play_fate(n) = score_chg;
     else
         runners_out = ~isempty(newRun{1}) + ~isempty(newRun{2}) + ~isempty(newRun{3}) + outs_end(n) + runsOnPlay;
+        play_fate(n) = runsOnPlay;
     end
 
     if(outs_end(n) < 3 && isempty(strfind(events{n+1,4},'R:')) && isempty(strfind(events{n+1,7},'R:')))
@@ -2820,10 +2848,10 @@ for n=2:length(events),
     
 end
 
-%% PUTTING EVERYTHING TOGETHER
 waitbar(1,h,sprintf('Parsing complete! Writing to output file...'))
+%% PUTTING EVERYTHING TOGETHER
 
-yearNo = 2014;
+yearNo = 2015;
 divNo = 1;
 
 unique_ids = 1:length(events);
@@ -2849,22 +2877,23 @@ fprintf(eventFile,'home_team\tbat_name\trun1_name\trun2_name\trun3_name\tsub_in\
 fprintf(eventFile,'balls\tstrikes\tpitch_str\tbase_cd_after\touts_after\trbi\tuer\ttm_uer\tab_fl\tpa_fl\tbat_event_fl\tbip_fl\t');
 fprintf(eventFile,'event_cd\thit_cd\thit_type\thit_loc\tbunt_fl\tsf_fl\tsh_fl\tsb_fl\tcs_fl\tpk_fl\tasst1\tasst2\tasst3\tasst4\t');
 fprintf(eventFile,'asst5\tasst6\tputout1\tputout2\tputout3\terror1\terror2\terror3\terr1_type\t');
-fprintf(eventFile,'err2_type\terr3_type\tinn_st_fl\tinn_end_fl\truns_this_inn\n');
+fprintf(eventFile,'err2_type\terr3_type\tinn_st_fl\tinn_end_fl\tinn_runs_before\truns_on_play\truns_this_inn\n');
 
 for n=2:length(events)
-    if(mod(n,1000) == 0)
-        waitbar(n/length(events),h,sprintf('%i lines written. (%2.2f%%)',n,100*n/length(events)))
-    end
+%     if(mod(n,1000) == 0)
+%         waitbar(n/length(events),h,sprintf('%i lines written. (%2.2f%%)',n,100*n/length(events)))
+%     end
     
     fprintf(eventFile,'%d\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t%d\t%d\t',unique_ids(n),year_ids(n),div_ids(n),events{n,1},events{n,2},home_bats(n),events{n,3},events{n,4},events{n,5},events{n,6});
     fprintf(eventFile,'%s\t%s\t%s\t%s\t%s\t%s\t%d\t%s\t%d\t%d\t%s\t',events{n,7},batName{n},runName{n,1},runName{n,2},runName{n,3},sub_cell{n,1},sub_cell{n,2},sub_cell{n,3},bases(n),outs(n),tas_str{n});
     fprintf(eventFile,'%d\t%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t',balls(n),strikes(n),pitches{n},base_end(n),outs_end(n),rbi(n),uer(n),tm_uer(n),is_ab(n),is_pa(n),is_bat(n),is_bip(n));
     fprintf(eventFile,'%d\t%d\t%s\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t',event_cd(n),hit_cd(n),hit_type{n},hit_loc{n},is_bunt(n),is_sf(n),is_sh(n),sb_fl(n),cs_fl(n),pk_fl(n),assists(n,1),assists(n,2),assists(n,3),assists(n,4));
     fprintf(eventFile,'%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%s\t',assists(n,5),assists(n,6),putouts(n,1),putouts(n,2),putouts(n,3),errors(n,1),errors(n,2),errors(n,3),errtype{n,1});
-    fprintf(eventFile,'%s\t%s\t%d\t%d\t%d\n',errtype{n,2},errtype{n,3},inn_st_fl(n),inn_end_fl(n),inn_fate(n));
+    fprintf(eventFile,'%s\t%s\t%d\t%d\t%d\t%d\n',errtype{n,2},errtype{n,3},inn_st_fl(n),inn_end_fl(n),play_fate(n),inn_fate(n));
 
 end
 
 fclose(eventFile);
 
 close(h) 
+

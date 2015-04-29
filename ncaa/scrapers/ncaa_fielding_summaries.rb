@@ -5,8 +5,8 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
 base_sleep = 0
 sleep_increment = 3
@@ -47,12 +47,14 @@ ncaa_teams.each do |team|
 	cat_id = 10122
   elsif year == '2014'
 	cat_id = 10462
+  elsif year == '2015'
+	cat_id = 10782
   end
   players_xpath = '//*[@id="stat_grid"]/tbody/tr'
 
   teams_xpath = '//*[@id="stat_grid"]/tfoot/tr'
 
-  stat_url = "http://stats.ncaa.org/team/stats/#{year_id}?org_id=#{team_id}&year_stat_category_id=#{cat_id}"
+  stat_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/stats/#{year_id}?org_id=#{team_id}&year_stat_category_id=#{cat_id}"
 
   print "Sleep #{sleep_time} ... "
   sleep sleep_time

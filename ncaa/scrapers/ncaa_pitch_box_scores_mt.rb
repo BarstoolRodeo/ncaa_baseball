@@ -7,8 +7,8 @@ require 'open-uri'
 
 #print "\n\nstarting pitching box scores...\n\n"
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
   if year == 2012
 	cat_id = 10083
@@ -16,6 +16,8 @@ division = 3
 	cat_id = 10121
   elsif year == 2014
 	cat_id = 10461
+  elsif year = 2015
+	cat_id = 10781
   end
 
 #require 'awesome_print'
@@ -90,7 +92,7 @@ game_ids.each_slice(gpt).with_index do |ids,i|
 
 #      game_url = 'http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
 #      game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}'
-	  game_url = "http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
+	  game_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
 
 #      print "Thread #{game_id}, category #{cat_id}, url #{game_url} ... \n"
 #      sleep sleep_time

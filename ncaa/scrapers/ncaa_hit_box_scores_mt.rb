@@ -5,8 +5,8 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2013
-division = 3
+year = 2015
+division = 1
 
   if year == 2012
 	cat_id = 10082
@@ -14,6 +14,8 @@ division = 3
 	cat_id = 10120
   elsif year == 2014
 	cat_id = 10460
+  elsif year == 2015
+	cat_id = 10780
   end
 
 #require 'awesome_print'
