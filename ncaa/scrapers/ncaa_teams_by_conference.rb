@@ -1,0 +1,130 @@
+#!/usr/bin/env ruby
+
+require 'csv'
+
+require 'nokogiri'
+require 'open-uri'
+
+year = 2015
+division = 1
+
+nthreads = 10
+
+base_sleep = 0
+sleep_increment = 3
+retries = 4
+
+# Base URL for relative team links
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
+base_url = 'http://stats.ncaa.org'
+
+valid_url_substring = "team/index/" ##{year_id}?org_id="
+
+ncaa_teams = CSV.open("csv/ncaa_conferences_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
+CSV.open("csv/ncaa_conf_alignment_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_team_schedules|
+
+# Header for team file
+
+ncaa_team_schedules << ["year", "division", "conf_id", "conf_name", "team_id", "team_name", "team_url"]
+
+# Get team IDs
+teams = []
+ncaa_teams.each do |team|
+  teams << team
+end
+
+n = teams.size
+
+tpt = (n.to_f/nthreads.to_f).ceil
+
+threads = []
+
+teams.each_slice(tpt).with_index do |teams_slice,i|
+
+  threads << Thread.new(teams_slice) do |t_teams|
+
+    t_teams.each_with_index do |team,j|
+
+      sleep_time = base_sleep
+
+      year = team[0]
+      conf_id = team[1]
+      conf_name = team[2]
+      conf_url = team[3]
+	
+	print "#{year}\t#{conf_id}\n"      
+
+      #team_schedule_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/index/%d?org_id=%d" % [year_id,team_id]
+      team_schedule_url = "http://stats.ncaa.org/team/inst_team_list?academic_year=#{year}&division=#{division}&sport_code=MBA&conf_id=#{conf_id}"
+	print "#{team_schedule_url}\n"
+
+      print "Sleep #{sleep_time} ... "
+      sleep sleep_time
+
+      found_teams = 0
+
+      tries = 0
+      begin
+        doc = Nokogiri::HTML(open("#{team_schedule_url}",'User-Agent' => 'ruby'))
+print"!!"
+      rescue
+        sleep_time += sleep_increment
+        print "sleep #{sleep_time} ... "
+        sleep sleep_time
+        tries += 1
+        if (tries > retries)
+          next
+        else
+          retry
+        end
+      end
+
+      sleep_time = base_sleep
+
+      print "#{i} #{year} #{team_name} ..."
+
+	doc.search("a").each do |member|
+
+	  link_url = member.attributes["href"].text
+
+	  # Valid team URLs
+
+	  if (link_url).include?(valid_url_substring)
+
+		# NCAA year_id
+
+		parameters = link_url.split("/")[-1]
+		year_id = parameters.split("?")[0]
+
+		# NCAA team_id
+
+		team_id = parameters.split("=")[1]
+
+		# NCAA team name
+
+		team_name = link.text()
+
+		# NCAA team URL
+
+		team_url = base_url+link_url
+
+		ncaa_team_schedules << [year, year_id, division, conf_id, conf_name, team_id, team_name, team_url]
+		found_teams += 1
+
+	  end
+
+	  ncaa_team_schedules.flush
+    
+      end
+
+      print " #{found_teams} members\n"
+
+    end
+
+  end
+
+end
+
+#ncaa_team_schedules.close
+
+end

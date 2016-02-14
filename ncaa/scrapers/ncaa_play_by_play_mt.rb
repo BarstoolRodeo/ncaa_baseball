@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2015
-division = 1
+division = 3
 
 #require 'awesome_print'
 
@@ -19,8 +19,8 @@ end
 events = []
 #events = ["Leaves Game","Enters Game","Defensive Rebound","Commits Foul","made Free Throw","Assist","Turnover","missed Three Point Jumper","Offensive Rebound","missed Two Point Jumper","made Layup","missed Layup","Steal","made Two Point Jumper","made Three Point Jumper","missed Free Throw","Blocked Shot","Deadball Rebound","30 Second Timeout","Media Timeout","Team Timeout","made Dunk","20 Second Timeout","Timeout","made Tip In","missed Tip In","missed Dunk","made","missed","missed Deadball"]
 
-base_url = 'http://stats.ncaa.org'
-#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
+#base_url = 'http://stats.ncaa.org'
+base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
 
 play_xpath = '//table[position()>1 and @class="mytable"]/tr[position()>1]'
 innings_xpath = '//table[position()=1 and @class="mytable"]/tr[position()>1]'
@@ -75,15 +75,15 @@ game_ids.each_slice(gpt).with_index do |ids,i|
 
       sleep_time = base_sleep
 
-#      game_url = 'http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
-      game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
+      game_url = 'http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
+      #game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
 
 #      print "Thread #{thread_id}, sleep #{sleep_time} ... "
 #      sleep sleep_time
 
       tries = 0
       begin
-        page = Nokogiri::HTML(open(game_url))
+        page = Nokogiri::HTML(open("#{game_url}",'User-Agent' => 'ruby'))
       rescue
         sleep_time += sleep_increment
 #        print "sleep #{sleep_time} ... "

@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2015
-division = 1
+division = 3
 
 base_sleep = 0
 sleep_increment = 3
@@ -31,7 +31,8 @@ ncaa_team_summaries << ["year","year_id","team_id","team_name","jersey_number","
 # Base URL for relative team links
 
 base_url = 'http://stats.ncaa.org'
-
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
+  
 sleep_time = base_sleep
 
 ncaa_teams.each do |team|
@@ -45,7 +46,8 @@ ncaa_teams.each do |team|
 
   teams_xpath = '//*[@id="stat_grid"]/tfoot/tr'
 
-  stat_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/stats?org_id=#{team_id}&sport_year_ctl_id=#{year_id}"
+  #stat_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/stats?org_id=#{team_id}&sport_year_ctl_id=#{year_id}"
+  stat_url = "http://stats.ncaa.org/team/stats?org_id=#{team_id}&sport_year_ctl_id=#{year_id}"
 
   print "Sleep #{sleep_time} ... "
   sleep sleep_time
@@ -55,7 +57,7 @@ ncaa_teams.each do |team|
 
   tries = 0
   begin
-    doc = Nokogiri::HTML(open(stat_url))
+    doc = Nokogiri::HTML(open("#{stat_url}",'User-Agent' => 'ruby'))
   rescue
     sleep_time += sleep_increment
     print "sleep #{sleep_time} ... "

@@ -2,24 +2,28 @@
 
 require 'csv'
 
+require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2015
-division = 1
+year = 2016
+division = 3
 
 CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
+user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.854.0 Safari/535.2"
 
 # Header for team file
 
 ncaa_teams << ["year", "year_id", "team_id", "team_name", "team_url"]
 
 # Base URL for relative team links
-
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
 base_url = 'http://stats.ncaa.org'
 
 #for year in 2012..2014
-	year_division_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+#	year_division_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+	year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+#	print "\n#{year_division_url}"
 
 	valid_url_substring = "team/index/" ##{year_id}?org_id="
 
@@ -27,7 +31,7 @@ base_url = 'http://stats.ncaa.org'
 
 	found_teams = 0
 
-	doc = Nokogiri::HTML(open(year_division_url))
+	doc = Nokogiri::HTML(open("#{year_division_url}",'User-Agent' => 'ruby'))
 
 	doc.search("a").each do |link|
 

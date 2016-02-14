@@ -6,7 +6,7 @@ require 'nokogiri'
 require 'open-uri'
 
 year = 2015
-division = 1
+division = 3
 
 nthreads = 10
 
@@ -17,6 +17,7 @@ retries = 4
 # Base URL for relative team links
 
 base_url = 'http://stats.ncaa.org'
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
 
 roster_xpath = '//*[@id="stat_grid"]/tbody/tr'
 
@@ -57,7 +58,9 @@ teams.each_slice(tpt).with_index do |teams_slice,i|
       team_id = team[2]
       team_name = team[3]
 
-      team_roster_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/roster/#{year_id}?org_id=#{team_id}"
+      #team_roster_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/roster/#{year_id}?org_id=#{team_id}"
+      team_roster_url = "http://stats.ncaa.org/team/roster/#{year_id}?org_id=#{team_id}"
+      #print "\n#{team_roster_url}"
 
       #print "Sleep #{sleep_time} ... "
       sleep sleep_time
@@ -67,7 +70,7 @@ teams.each_slice(tpt).with_index do |teams_slice,i|
 
       tries = 0
       begin
-        doc = Nokogiri::HTML(open(team_roster_url))
+        doc = Nokogiri::HTML(open("#{team_roster_url}",'User-Agent' => 'ruby'))
       rescue
         sleep_time += sleep_increment
         #print "sleep #{sleep_time} ... "

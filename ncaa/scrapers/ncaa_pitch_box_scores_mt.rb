@@ -8,7 +8,7 @@ require 'open-uri'
 #print "\n\nstarting pitching box scores...\n\n"
 
 year = 2015
-division = 1
+division = 3
 
   if year == 2012
 	cat_id = 10083
@@ -92,14 +92,15 @@ game_ids.each_slice(gpt).with_index do |ids,i|
 
 #      game_url = 'http://stats.ncaa.org/game/play_by_play/%d' % [game_id]
 #      game_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}'
-	  game_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
+#	  game_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
+	  game_url = "http://stats.ncaa.org/game/box_score/#{game_id}?year_stat_category_id=#{cat_id}"
 
 #      print "Thread #{game_id}, category #{cat_id}, url #{game_url} ... \n"
 #      sleep sleep_time
 
       tries = 0
       begin
-        page = Nokogiri::HTML(open(game_url))
+        page = Nokogiri::HTML(open("#{game_url}",'User-Agent' => 'ruby'))
       rescue
         sleep_time += sleep_increment
 #        print "sleep #{sleep_time} ... "

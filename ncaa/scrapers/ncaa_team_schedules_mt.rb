@@ -5,17 +5,17 @@ require 'csv'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2015
-division = 1
+year = 2016
+division = 3
 
 nthreads = 10
 
 base_sleep = 0
-sleep_increment = 3
-retries = 4
+sleep_increment = 5
+retries = 9
 
 # Base URL for relative team links
-
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
 base_url = 'http://stats.ncaa.org'
 
 game_xpath = '//*[@id="contentArea"]/table/tr[2]/td[1]/table/tr[position()>2]'
@@ -35,6 +35,7 @@ ncaa_teams.each do |team|
 end
 
 n = teams.size
+fails = 0
 
 tpt = (n.to_f/nthreads.to_f).ceil
 
@@ -53,9 +54,10 @@ teams.each_slice(tpt).with_index do |teams_slice,i|
       team_id = team[2]
       team_name = team[3]
       
-      team_schedule_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/index/%d?org_id=%d" % [year_id,team_id]
+      #team_schedule_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/index/%d?org_id=%d" % [year_id,team_id]
+      team_schedule_url = "http://stats.ncaa.org/team/index/%d?org_id=%d" % [year_id,team_id]
 
-      #print "Sleep #{sleep_time} ... "
+      print "Sleep #{sleep_time} ... "
       sleep sleep_time
 
       found_games = 0
@@ -65,13 +67,15 @@ teams.each_slice(tpt).with_index do |teams_slice,i|
 
       tries = 0
       begin
-        doc = Nokogiri::HTML(open(team_schedule_url))
+        doc = Nokogiri::HTML(open("#{team_schedule_url}",'User-Agent' => 'ruby'))
       rescue
         sleep_time += sleep_increment
-        #print "sleep #{sleep_time} ... "
+        print "sleep #{sleep_time} ... "
         sleep sleep_time
         tries += 1
         if (tries > retries)
+          fails += 1
+	  print "**failed!**\n"
           next
         else
           retry
@@ -212,6 +216,7 @@ end
 
 threads.each(&:join)
 
-ncaa_team_schedules.close
+print "missed #{fails} schedules!\n"
 
+#ncaa_team_schedules.close
 end
