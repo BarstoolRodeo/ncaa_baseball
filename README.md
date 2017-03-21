@@ -1,3 +1,6 @@
+Attempting updates for 2017 compatability starting with scrapers. 
+BR 3/21/17
+
 ncaa_baseball
 ========
 
