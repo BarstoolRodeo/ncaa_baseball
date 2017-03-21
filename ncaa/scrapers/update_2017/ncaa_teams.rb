@@ -26,7 +26,7 @@ base_url = 'http://stats.ncaa.org'
 #	print "\n#{year_division_url}"
 	
 	
-	valid_url_substring = "teams/"	#index/#{year_id}?org_id="
+	valid_url_substring = "teams/"	#index/#{year_id}?org_id=" #still returning 3 rows of unwanted data. add syntax after /
 
 	print "\nRetrieving division #{division} teams for #{year} ... "
 
@@ -49,7 +49,7 @@ base_url = 'http://stats.ncaa.org'
 
 		# NCAA team_id
 
-		team_id = link_url.split("team/")[1]
+		team_id = link_url.split("team/")[1] #changed
 
 		# NCAA team name
 
