@@ -1,0 +1,67 @@
+#!/usr/bin/env ruby
+
+require 'csv'
+
+require 'rubygems'
+require 'nokogiri'
+require 'open-uri'
+
+division = 1
+
+for year in 2013..2017
+CSV.open("csv/ncaa_conferences_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
+
+# Header for team file
+
+ncaa_teams << ["year", "conf_id", "conf_name", "conf_url"]
+
+# Base URL for relative team links
+#base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
+base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=2015&division=2&sport_code=MBA&conf_id='
+
+#	year_division_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+	year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
+#	print "\n#{year_division_url}"
+
+	valid_url_substring = "javascript:changeConference" ##{year_id}?org_id="
+
+	print "\nRetrieving division #{division} conferences for #{year} ... "
+
+	found_teams = 0
+
+	doc = Nokogiri::HTML(open("#{year_division_url}",'User-Agent' => 'ruby'))
+
+	doc.search("a").each do |link|
+
+	  link_url = link.attributes["href"].text
+
+	  # Valid team URLs
+
+	  if (link_url).include?(valid_url_substring)
+
+		# NCAA team_id
+
+		conf_id = link_url.split(/\(([^)]+)\)/)[1]
+
+		# NCAA team name
+
+		conf_name = link.text()
+
+		# NCAA team URL
+
+		conf_url = base_url+conf_id
+
+		ncaa_teams << [year, conf_id, conf_name, conf_url]
+		found_teams += 1
+
+	  end
+
+	  ncaa_teams.flush
+
+	end
+	
+	print "found #{found_teams} conferences\n\n"
+end
+
+#ncaa_teams.close
+end
