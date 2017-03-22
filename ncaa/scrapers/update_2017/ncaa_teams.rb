@@ -49,7 +49,7 @@ base_url = 'http://stats.ncaa.org'
 
 		# NCAA team_id
 
-		team_id = link_url.split("team/")[1] #changed
+		team_id = link_url.split("/")[2] #changed
 
 		# NCAA team name
 
