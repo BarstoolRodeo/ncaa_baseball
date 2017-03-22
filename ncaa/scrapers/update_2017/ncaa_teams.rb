@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+#returning 3 rows of unwanted data that will impede output when sourced in other scrapers. will still work if deleted.  working on fix. 
+
 require 'csv'
 
 require 'rubygems'
