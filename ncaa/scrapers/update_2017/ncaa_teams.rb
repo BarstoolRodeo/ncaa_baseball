@@ -6,7 +6,7 @@ require 'rubygems'
 require 'nokogiri'
 require 'open-uri'
 
-year = 2017
+year = 2015
 division = 1
 
 CSV.open("csv/ncaa_teams_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_teams|
@@ -26,6 +26,7 @@ base_url = 'http://stats.ncaa.org'
 #	print "\n#{year_division_url}"
 	
 	valid_url_substring = "team/" ##{year_id}?org_id="
+	invalid = "academic_year="
 
 	print "\nRetrieving division #{division} teams for #{year} ... "
 
@@ -39,7 +40,7 @@ base_url = 'http://stats.ncaa.org'
 
 	  # Valid team URLs
 
-	  if (link_url).include?(valid_url_substring)
+	  if (link_url).include?(valid_url_substring) 
 
 		# NCAA year_id
 
@@ -57,9 +58,15 @@ base_url = 'http://stats.ncaa.org'
 		# NCAA team URL
 
 		team_url = base_url+link_url
+		
+		unless (link_url).include?(invalid)
 
 		ncaa_teams << [year, year_id, team_id, team_name, team_url]
 		found_teams += 1
+		
+		
+		
+		
 
 	  end
 
@@ -71,4 +78,5 @@ base_url = 'http://stats.ncaa.org'
 #end
 
 #ncaa_teams.close
+end
 end
