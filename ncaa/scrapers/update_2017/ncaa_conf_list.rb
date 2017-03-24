@@ -34,6 +34,7 @@ base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=2015&divisio
 	doc.search("a").each do |link|
 
 	  link_url = link.attributes["href"].text
+	  invalid = "-1"
 
 	  # Valid team URLs
 
@@ -42,6 +43,8 @@ base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=2015&divisio
 		# NCAA team_id
 
 		conf_id = link_url.split(/\(([^)]+)\)/)[1]
+		
+		unless (conf_id).include?(invalid)
 
 		# NCAA team name
 
@@ -60,8 +63,11 @@ base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=2015&divisio
 
 	end
 	
-	print "found #{found_teams} conferences\n\n"
+	
 end
 
+print "found #{found_teams} conferences\n\n"
+
 #ncaa_teams.close
+end
 end
