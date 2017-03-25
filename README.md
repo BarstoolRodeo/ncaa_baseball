@@ -1,4 +1,7 @@
-Attempting updates for 2017 compatability starting with scrapers. 
+ncaa_baseball 2017
+========
+
+Attempting updates for 2017 compatability  
 BR 3/21/17
 
 Update 3/25/17
@@ -7,7 +10,12 @@ Started adding additional scrapers including hand splits and base state splits.
 Started tampering with parsers.  Not sure if I'm going to have to buy Matlab yet.  Attempting work-around
 Need to reconfigure pre-2012 data already in SQL
 
-ncaa_baseball
+-LG
+
+
+This is a cloned repository from the dormant ncaa_baseball
+
+ncaa_baseball pre 2016
 ========
 
 Baseball data and data science tools for NCAA Divisions 1-3, 2012-2014.
