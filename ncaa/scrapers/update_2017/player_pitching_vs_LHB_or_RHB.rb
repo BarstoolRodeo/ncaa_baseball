@@ -40,29 +40,29 @@ ncaa_teams.each do |team|
   team_name = team[3]
 
   if year == '2012' and hand == 'rhb'
-	cat_id = 10117  and cat_id = 10083
+	split_id = 10117  and cat_id = 10083
   elsif year == '2013' and hand == 'rhb'
-	cat_id = 10185  and cat_id = 10121
+	split_id = 10185  and cat_id = 10121
   elsif year == '2014' and hand == 'rhb'
-	cat_id = 10225  and cat_id = 10461
+	split_id = 10225  and cat_id = 10461
   elsif year == '2015' and hand == 'rhb'
-	cat_id = 10305  and cat_id = 10781
+	split_id = 10305  and cat_id = 10781
   elsif year == '2016' and hand == 'rhb'
 	split_id = 10559 and cat_id = 10947
   elsif year == '2017' and hand == 'rhb'
-	cat_id = 10605  and cat_id = 11001
+	split_id = 10605  and cat_id = 11001
   elsif year == '2012' and hand == 'lhb'
-	cat_id = 10110  and cat_id = 10083
+	split_id = 10110  and cat_id = 10083
   elsif year == '2013' and hand == 'lhb'
-	cat_id = 10178  and cat_id = 10121
+	split_id = 10178  and cat_id = 10121
   elsif year == '2014' and hand == 'lhb'
-	cat_id = 10218  and cat_id = 10461
+	split_id = 10218  and cat_id = 10461
   elsif year == '2015' and hand == 'lhb'
-	cat_id = 10298  and cat_id = 10781
+	split_id = 10298  and cat_id = 10781
   elsif year == '2016' and hand == 'lhb'
-	cat_id = 10552 and cat_id = 10947
+	split_id = 10552 and cat_id = 10947
   elsif year == '2017' and hand == 'lhb'
-	cat_id = 10598 and cat_id = 11001
+	split_id = 10598 and cat_id = 11001
   end
 
   players_xpath = '//*[@id="stat_grid"]/tbody/tr'
