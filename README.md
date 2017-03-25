@@ -2,9 +2,11 @@ ncaa_baseball 2017
 ========
 
 Attempting updates for 2017 compatability  
-BR 3/21/17
+
+-LG 3/21/17
 
 Update 3/25/17
+
 Scrapers should be done soon.  
 Started adding additional scrapers including hand splits and base state splits. 
 Started tampering with parsers.  Not sure if I'm going to have to buy Matlab yet.  Attempting work-around
