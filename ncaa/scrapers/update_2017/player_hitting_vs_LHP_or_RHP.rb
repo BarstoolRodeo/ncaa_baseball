@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+#needs cat_id's 2012-2016
+
 require 'csv'
 
 require 'nokogiri'
