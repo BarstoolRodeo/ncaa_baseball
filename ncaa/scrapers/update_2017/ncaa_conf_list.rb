@@ -17,7 +17,7 @@ ncaa_teams << ["year", "conf_id", "conf_name", "conf_url"]
 
 # Base URL for relative team links
 #base_url = 'http://anonymouse.org/cgi-bin/anon-www.cgi/stats.ncaa.org'
-base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=2015&division=2&sport_code=MBA&conf_id='
+base_url = 'http://stats.ncaa.org/team/inst_team_list?academic_year=#{year}&division=#{division}&sport_code=MBA&conf_id='
 
 #	year_division_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
 	year_division_url = "http://stats.ncaa.org/team/inst_team_list?sport_code=MBA&academic_year=#{year}&division=#{division}&conf_id=-1&schedule_date="
