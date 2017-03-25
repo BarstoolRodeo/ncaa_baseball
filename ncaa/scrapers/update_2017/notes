@@ -1,8 +1,8 @@
 Need proxy settings:
-confs, conf  members, hit sum, teams
+confs, conf  members, teams
 
 Proxy complete:
-scheds
+scheds, hit sum, pitch sum
 
 Compatible proxies:
 http://anype.com/
@@ -15,4 +15,6 @@ http://anonymouse.org/vip.html
 Pending:
 PPB missing:
 pbp.xls - team score, opponent score, opponent text
-innings.xls - team id, team url, team rhe
+innings.xls - team id, team url
+
+
