@@ -7,6 +7,7 @@ require 'open-uri'
 
 year = 2017
 division = 1
+hand =  "rhp" #"lhp"
 
 base_sleep = 0
 sleep_increment = 3
@@ -14,7 +15,7 @@ retries = 4
 
 ncaa_teams = CSV.open("csv/master/teams/ncaa_teams_#{year}_D#{division}.csv","r",{:col_sep => "\t", :headers => TRUE})
 
-CSV.open("csv/ncaa_player_lhp_hit_split_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_player_summaries|
+CSV.open("csv/ncaa_player_#{hand}_hitting_split_#{year}_D#{division}.csv","w",{:col_sep => "\t"}) do |ncaa_player_summaries|
 
 ncaa_player_summaries << ["year","year_id","team_id","team_name","jersey_number","player_id","player_name","player_url","class_year","position","GP","GS","BA","OBP","SLG","AB","R","H","2B","3B","HR","RBI","BB","HBP","SF","SH","K","DP","SB","CS","PickedOff"]
 
@@ -33,9 +34,13 @@ ncaa_teams.each do |team|
   team_id = team[2]
   team_name = team[3]
   
-   if year == '2017'
+   if year == '2017' and hand == 'lhp'
 	cat_id = 10588
+   elsif year == '2017' and hand == 'rhp'
+	cat_id = 10581
 	end
+	
+	
 
   players_xpath = '//*[@id="stat_grid"]/tbody/tr'
 
@@ -117,3 +122,4 @@ print "\n\nfinished LHP split summaries!\n\n"
 ncaa_player_summaries.close
 
 end #ncaa_player_summaries
+
