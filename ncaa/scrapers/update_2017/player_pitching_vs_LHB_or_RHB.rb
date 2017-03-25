@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+#cat and split id's probably need to be double checked.  starbucks is a poor choice for work venue. 
+
 require 'csv'
 
 require 'nokogiri'
