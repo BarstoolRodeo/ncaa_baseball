@@ -50,14 +50,19 @@ ncaa_teams.each do |team|
 	cat_id = 10461
   elsif year == '2015'
 	cat_id = 10781
+  elsif year == '2016'
+	cat_id = 10947
+  elsif year == '2016'
+	cat_id = 11001
   end
+  
 
   players_xpath = '//*[@id="stat_grid"]/tbody/tr'
 
   teams_xpath = '//*[@id="stat_grid"]/tfoot/tr'
 
   #stat_url = "http://anonymouse.org/cgi-bin/anon-www.cgi/http://stats.ncaa.org/team/stats/#{year_id}?org_id=#{team_id}&year_stat_category_id=#{cat_id}"
-  stat_url = "http://stats.ncaa.org/team/#{team_id}/stats?id=#{year_id}&available_stat_id=#{cat_id}"
+  stat_url = "http://anype.com/SURF/http://stats.ncaa.org/team/#{team_id}/stats?id=#{year_id}&year_stat_category_id=#{cat_id}&ANYPE_SUBMIT=0"
 
   print "Sleep #{sleep_time} ... "
   sleep sleep_time
